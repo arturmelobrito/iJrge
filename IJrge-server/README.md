@@ -24,7 +24,6 @@ flask-api-project
 │   ├── conftest.py
 │   └── test_health.py
 ├── requirements.txt
-├── .env.example
 ├── .gitignore
 └── README.md
 ```
@@ -32,8 +31,12 @@ flask-api-project
 ## Setup Instructions
 
 1. **Create a virtual environment:**
+   ```shell
+   python3 -m venv venv
    ```
-   python -m venv venv
+   or
+   ```shell
+   pipenv shell
    ```
 
 2. **Activate the virtual environment:**
@@ -46,9 +49,15 @@ flask-api-project
      source venv/bin/activate
      ```
 
+   OBS: If you used `pipenv` to manage the project there is no need to activate the environment
+
 3. **Install the required packages:**
    ```
    pip install -r requirements.txt
+   ```
+   or
+   ```shell
+   pipenv install # After using pipenv shell
    ```
 
 4. **Run the application:**
@@ -61,7 +70,7 @@ flask-api-project
 Once the application is running, you can access the health check endpoint at:
 
 ```
-http://localhost:5000/health
+http://localhost:5000/api/health
 ```
 
 This will return a JSON response indicating the health status of the application:
