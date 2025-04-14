@@ -1,10 +1,20 @@
 import os
+import cv2
+from services.facial_recognition import *
 
 
-def save_image(image):
-    UPLOAD_FOLDER = "/home/smt/uploads"  # Replace with your desired directory
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Ensure the directory exists
+recognizer = FaceRecognition(recog_threshold=0.5)
 
-    # Save the image to the upload folder
-    image_path = os.path.join(UPLOAD_FOLDER, image.filename)
-    image.save(image_path)
+def call_facial_recog(image):
+
+    imagem = face_recognition.load_image_file(image)
+
+    face_locations, detected_names = recognizer.recognize_faces(imagem)
+
+    # Desenha os rostos reconhecidos na imagem
+    recognized_image = recognizer.draw_recognized_faces(imagem, face_locations, detected_names)
+
+    detected_names = [nome for nome in set(detected_names) if nome != 'Desconhecido']
+    detected = len(detected_names) > 0
+
+    return detected, detected_names

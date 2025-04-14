@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, jsonify, request
 
-from services.upload_image import save_image
+from services.upload_image import *
 
 upload_image_bp = Blueprint("upload_image", __name__)
 
@@ -18,6 +18,19 @@ def upload_image():
     if image.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    save_image(image)
+    detected, detected_names = call_facial_recog(image)
 
-    return jsonify({"message": f"Image {image.filename} uploaded successfully!"}), 200
+    if detected:
+        message = "Face(s) detected!"
+    else:
+        message = "No face detected!"
+    
+    response = {
+        "message": message,
+        "detected": detected,
+        "detected_names": detected_names
+    }
+
+    print(response)
+
+    return jsonify(response), 200
